@@ -40,6 +40,12 @@ public class MonthViewRenderer extends Renderer {
 	private void encodeWidget(ResponseWriter writer, MonthView monthView) throws IOException {
 		writer.write("" +
 		"<script type=\"text/javascript\">\n" +
+		"var GIF_ICAL = '" + MonthViewConstants.GIF_ICAL + "';\n" + 
+		"var GIF_OUTLOOK = '" + MonthViewConstants.GIF_OUTLOOK + "';\n" + 
+		"var GIF_PREVMONTH = '" + MonthViewConstants.GIF_PREVMONTH + "';\n" + 
+		"var GIF_NEXTMONTH = '" + MonthViewConstants.GIF_NEXTMONTH + "';\n" + 
+		"var GIF_TODAY = '" + MonthViewConstants.GIF_TODAY + "';\n" + 
+		"\n" +
 		"$(document).ready(function() {\n" +
 			"\t$('#" + monthView.getId() + "').fullCalendar({\n" +
 				"\t\tdraggable: true\n" +

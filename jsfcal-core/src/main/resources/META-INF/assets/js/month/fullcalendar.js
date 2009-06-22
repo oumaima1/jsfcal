@@ -296,15 +296,15 @@
 			if (bo) { // "button options"
 				var buttons = $("<div class='full-calendar-buttons'/>").appendTo(header);
 				if (bo == true || bo.today !== false) {
-					todayButton = $("<img src='today.png' height='32' width='32' />").click(gotoToday);
+					todayButton = $("<img src='" + GIF_TODAY + "' height='32' width='32' />").click(gotoToday);
 					buttons.append(todayButton);
 				}
 				if (bo == true || bo.ical !== false) {
-					var b = $("<img src='ical.gif' height='32' width='32' />").click(exportical);
+					var b = $("<img src='" + GIF_ICAL + "' height='32' width='32' />").click(exportical);
 					buttons.append(b);					
 				}
 				if (bo == true || bo.outlook !== false) {
-					var b = $("<img src='outlook.gif' height='32' width='32' />").click(exportoutlook);
+					var b = $("<img src='" + GIF_OUTLOOK + "' height='32' width='32' />").click(exportoutlook);
 					buttons.append(b);					
 				}				
 				if (bo.prevYear) {
@@ -317,8 +317,8 @@
 					else buttons.append(b);
 				}
 
-				var bPrevMonth = $("<img src='prev-month.png' height='32' width='32' />");
-				var bNextMonth = $("<img src='next-month.png' height='32' width='32' />");
+				var bPrevMonth = $("<img src='" + GIF_PREVMONTH + "' height='32' width='32' />");
+				var bNextMonth = $("<img src='" + GIF_NEXTMONTH + "' height='32' width='32' />");
 
 				if (bo == true || bo.prevMonth !== false) {
 					if (r2l) {
