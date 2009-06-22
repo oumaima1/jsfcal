@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tr.richfacesext.components.ComponentConstants;
+import tr.richfacesext.components.ComponentUtils;
 
 /**
  * 
@@ -50,7 +51,7 @@ public class RichFacesExtResourceLoaderPhaseListener implements PhaseListener {
 		FacesContext facesContext = event.getFacesContext();
 		String viewRootId = facesContext.getViewRoot().getViewId();
 
-		if (viewRootContainsPLKey(ComponentConstants.RICHFACESEXT_RESOURCE_LOADER_VIEW_ID, viewRootId)) {
+		if (ComponentUtils.viewRootContainsPLKey(ComponentConstants.RICHFACESEXT_RESOURCE_LOADER_VIEW_ID, viewRootId)) {
 			try {
 				serveResource(facesContext, viewRootId);
 			}
@@ -200,10 +201,6 @@ public class RichFacesExtResourceLoaderPhaseListener implements PhaseListener {
 	@SuppressWarnings("unchecked")
 	private String getResourceFolder(String restStr) {
 		return restStr.substring(restStr.indexOf("/") + 1, restStr.lastIndexOf("/"));
-	}
-	
-	private boolean viewRootContainsPLKey(String viewId, String viewRootId) {
-		return viewRootId.startsWith(viewId) || viewRootId.startsWith("/" + viewId);
 	}
 	
 	private String getResourceType(String resourceName) {

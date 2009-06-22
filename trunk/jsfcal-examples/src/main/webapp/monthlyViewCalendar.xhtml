@@ -8,7 +8,18 @@
 	xmlns:jsfcal="http://code.google.com/p/jsfcal">
 	<body>
 		<h:form name="form1">
-			<jsfcal:month id="monthView" />
+			<jsfcal:month id="monthView" value="#{monthViewController.events}" />
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<h:dataTable id="tbl_events" value="#{monthViewController.events}" var="event">
+				<h:column>
+					<h:outputText value="#{event.title}" />
+				</h:column>
+			</h:dataTable>
 		</h:form>
 	</body>	
 </html> 
