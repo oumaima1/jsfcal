@@ -350,4 +350,9 @@ public abstract class ComponentUtils {
 			}
 		}
 	}
+	
+	
+	public static boolean viewRootContainsPLKey(String viewId, String viewRootId) {
+		return viewRootId.startsWith(viewId) || viewRootId.startsWith("/" + viewId);
+	}	
 }

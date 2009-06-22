@@ -13,7 +13,7 @@
  * Date: 2009-05-31 15:56:02 -0500 (Sun, 31 May 2009)
  * Revision: 23
  */
- 
+
 (function($) {
 
 	$.fn.fullCalendar = function(options) {

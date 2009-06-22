@@ -1,13 +1,16 @@
 package tr.richfacesext.components.jsfcal.month;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 
+import tr.richfacesext.components.ComponentConstants;
 import tr.richfacesext.components.ComponentUtils;
+import tr.richfacesext.components.jsfcal.Event;
 
 /**
  * 
@@ -48,12 +51,45 @@ public class MonthViewRenderer extends Renderer {
 		"\n" +
 		"$(document).ready(function() {\n" +
 			"\t$('#" + monthView.getId() + "').fullCalendar({\n" +
-				"\t\tdraggable: true\n" +
+				"\t\tyear: " + monthView.getYear() + ",\n" +
+				"\t\tmonth: " + monthView.getMonth() + ",\n" +
+				"\t\tdraggable: " + !monthView.getReadOnly() + ",\n" +
+				"\t\tabbrevDayHeadings: " + monthView.getAbbrevDayHeadings() + ",\n" +
+				"\t\ttitle: " + monthView.getTitle() + ",\n" +
+				"\t\tevents: [\n" +
+					getEventsAsStr(monthView.getEvents()) +
+				"\t\t],\n" +
+				"\t\teventDrop: function(calEvent, dayDelta, jsEvent, ui) {\n" +
+				"jQuery.get('" + ComponentConstants.FACES_PREFIX + MonthViewConstants.PL_MONTH_ACTIONS  + "');" +
+				"\t\t\t" +
+				"\t\t}," +				
 			"\t});\n" +
 		"});\n" +
 		"</script>");		
 	}
 	
+	private String getEventsAsStr(Collection<Event> events) {
+		StringBuffer strEvents = new StringBuffer();
+		Object[] eventsArr = events.toArray();
+		for (int i = 0; i < eventsArr.length; i++) {
+			Event e = (Event) eventsArr[i];
+
+			strEvents.append("\t\t\t{\n");
+			strEvents.append("\t\t\t\tid: " + e.getEventId() + ",\n");	
+			strEvents.append("\t\t\t\ttitle: '" + e.getTitle() + "',\n");
+			strEvents.append("\t\t\t\tstart: new Date(" + e.getStartDate().getTime() + "),\n");	
+			strEvents.append("\t\t\t\tend: new Date(" + e.getEndDate().getTime() + ")\n");	
+			strEvents.append("\t\t\t}");
+			
+			if (i != eventsArr.length - 1)
+				strEvents.append(",\n");
+			else
+				strEvents.append("\n");
+		}
+
+		return strEvents.toString();
+	}
+
 	private void encodeMarkup(ResponseWriter writer, MonthView monthView) throws IOException {
 		writer.write("<div style=\"width:" + monthView.getWidth() + "px;height:" + monthView.getHeight() + "\" id=\"" + monthView.getId() + "\"></div>");
 	}

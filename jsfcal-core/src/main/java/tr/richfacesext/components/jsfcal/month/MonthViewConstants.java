@@ -25,4 +25,6 @@ public interface MonthViewConstants {
 	String GIF_PREVMONTH 		= ComponentConstants.FACES_PREFIX  + ComponentConstants.RICHFACESEXT_RESOURCE_LOADER_VIEW_ID + "/month/" + "prev-month.png";
 	String GIF_NEXTMONTH 		= ComponentConstants.FACES_PREFIX  + ComponentConstants.RICHFACESEXT_RESOURCE_LOADER_VIEW_ID + "/month/" + "next-month.png";
 	String GIF_TODAY 			= ComponentConstants.FACES_PREFIX  + ComponentConstants.RICHFACESEXT_RESOURCE_LOADER_VIEW_ID + "/month/" + "today.png";
+	
+	String PL_MONTH_ACTIONS 	= ".jsfcalMonthAction";
 }

@@ -1,8 +1,14 @@
 package tr.richfacesext.components.jsfcal.month;
 
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
+
+import tr.richfacesext.components.jsfcal.Event;
 
 /**
  * 
@@ -33,7 +39,7 @@ public class MonthView extends UIInput{
 			return _initYear;
 
 		ValueBinding vb = getValueBinding("initYear");
-		return vb != null ? (java.lang.Integer) vb.getValue(getFacesContext()) : null;
+		return vb != null ? (java.lang.Integer) vb.getValue(getFacesContext()) : getYear();
 	}
 	public void setInitYear(Integer initYearValue) {
 		_initYear = initYearValue;
@@ -44,7 +50,7 @@ public class MonthView extends UIInput{
 			return _initMonth;
 
 		ValueBinding vb = getValueBinding("initMonth");
-		return vb != null ? (java.lang.Integer) vb.getValue(getFacesContext()) : null;
+		return vb != null ? (java.lang.Integer) vb.getValue(getFacesContext()) : getMonth();
 	}
 	public void setInitMonth(Integer initMonthValue) {
 		_initMonth = initMonthValue;
@@ -127,5 +133,25 @@ public class MonthView extends UIInput{
 		_height = (Integer) values[5];
 		_abbrevDayHeadings = (Boolean) values[6];
 		_title = (Boolean) values[7];
+	}
+
+	public Collection<Event> getEvents() {
+		if (getValue() == null)
+			return null;
+		
+		if (getValue() instanceof Collection)
+			return (Collection<Event>) getValue();
+		
+		throw new IllegalArgumentException("value property of component should be an instanceof " + Collection.class.getName());
+	}
+
+	public int getYear() {
+		Calendar c = Calendar.getInstance();
+		return c.get(Calendar.YEAR);
+	}
+	
+	public int getMonth() {
+		Calendar c = Calendar.getInstance();
+		return c.get(Calendar.MONTH);
 	}
 }

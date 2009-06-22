@@ -1,6 +1,7 @@
 package tr.richfacesext.jsfcal;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -23,10 +24,16 @@ public class MonthViewController {
 	}
 	
 	private Date today1Pm() {
-		return null;
+		Calendar calendar = Calendar.getInstance(); 
+		calendar.set(Calendar.HOUR, 13);
+		
+		return calendar.getTime();
 	}
 	
 	private Date today6Pm() {
-		return null;
+		Calendar calendar = Calendar.getInstance(); 
+		calendar.set(Calendar.HOUR, 18);
+		
+		return calendar.getTime();
 	}
 }
