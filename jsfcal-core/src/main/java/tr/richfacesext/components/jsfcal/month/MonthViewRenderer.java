@@ -3,6 +3,7 @@ package tr.richfacesext.components.jsfcal.month;
 import java.io.IOException;
 import java.util.Collection;
 
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -41,6 +42,9 @@ public class MonthViewRenderer extends Renderer {
 	}
 
 	private void encodeWidget(ResponseWriter writer, MonthView monthView) throws IOException {
+		ValueExpression valueVE = monthView.getValueExpression("value");
+        String c = valueVE.getExpressionString();
+		
 		writer.write("" +
 		"<script type=\"text/javascript\">\n" +
 		"var GIF_ICAL = '" + MonthViewConstants.GIF_ICAL + "';\n" + 
@@ -60,7 +64,7 @@ public class MonthViewRenderer extends Renderer {
 					getEventsAsStr(monthView.getEvents()) +
 				"\t\t],\n" +
 				"\t\teventDrop: function(calEvent, dayDelta, jsEvent, ui) {\n" +
-				"jQuery.get('" + ComponentConstants.FACES_PREFIX + MonthViewConstants.PL_MONTH_ACTIONS + "');" +
+				"jQuery.get('" + ComponentConstants.FACES_PREFIX + MonthViewConstants.PL_MONTH_ACTIONS + "" + "');" +
 				"\t\t\t" +
 				"\t\t}," +				
 			"\t});\n" +
