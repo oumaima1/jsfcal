@@ -19,7 +19,9 @@ import tr.richfacesext.components.ComponentUtils;
 public class MonthViewActionPhaseListener implements PhaseListener {
 	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-
+	
+	private static final String ACTION_MOVE = "move";
+	
 	public void beforePhase(PhaseEvent event) {
 		// No-op
 	}
@@ -35,11 +37,18 @@ public class MonthViewActionPhaseListener implements PhaseListener {
 
 		if (ComponentUtils.viewRootContainsPLKey(MonthViewConstants.PL_MONTH_ACTIONS, viewRootId)) {
 			try {
-				System.out.println("---geldi---");
+				String[] restParts = viewRootId.split("/");
+				doAction(restParts);
 			}
 			catch (StringIndexOutOfBoundsException e) {
-				logger.error("resource request is not a proper one! viewRootId: " + viewRootId, e);
+				logger.error("action request is not a proper one! viewRootId: " + viewRootId, e);
 			}
+		}
+	}
+
+	private void doAction(String[] restParts) {
+		if (ACTION_MOVE.equals(restParts[0])) {
+			
 		}
 	}
 }

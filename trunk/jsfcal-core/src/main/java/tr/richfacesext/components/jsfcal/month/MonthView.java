@@ -72,7 +72,7 @@ public class MonthView extends UIInput{
 			return _width;
 
 		ValueBinding vb = getValueBinding("width");
-		return vb != null ? (java.lang.Integer) vb.getValue(getFacesContext()) : new Integer("650");
+		return vb != null ? (java.lang.Integer) vb.getValue(getFacesContext()) : new Integer("700");
 	}
 	public void setWidth(Integer widthValue) {
 		_width = widthValue;
