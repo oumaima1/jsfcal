@@ -1,14 +1,21 @@
 package tr.richfacesext.components.jsfcal.month;
 
+import java.util.Collection;
+import java.util.Map;
+
+import javax.faces.FacesException;
 import javax.faces.context.FacesContext;
+import javax.faces.el.ValueBinding;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tr.richfacesext.components.ComponentUtils;
+import tr.richfacesext.components.jsfcal.Event;
 
 /**
  * 
@@ -37,18 +44,43 @@ public class MonthViewActionPhaseListener implements PhaseListener {
 
 		if (ComponentUtils.viewRootContainsPLKey(MonthViewConstants.PL_MONTH_ACTIONS, viewRootId)) {
 			try {
-				String[] restParts = viewRootId.split("/");
-				doAction(restParts);
+				Map params = facesContext.getExternalContext().getRequestParameterMap();
+				doAction(facesContext, params);
 			}
 			catch (StringIndexOutOfBoundsException e) {
 				logger.error("action request is not a proper one! viewRootId: " + viewRootId, e);
+			} 
+		}
+	}
+
+	private void doAction(FacesContext context, Map params) {
+		String paramAction = (String) params.get(MonthViewConstants.KEY_ACTION);
+		String elParam = (String) params.get(MonthViewConstants.KEY_EL);
+		
+		if (StringUtils.isNotEmpty(elParam)) {
+			ValueBinding vb = context.getApplication().createValueBinding("#{" + elParam + "}");
+			Object events = vb.getValue(context);
+			
+			if (events instanceof Collection) {
+				Collection eventsCol = (Collection) events;
+				if (ACTION_MOVE.equals(paramAction)) {
+					moveEvent(eventsCol, (String) params.get(MonthViewConstants.KEY_ID),(String) params.get(MonthViewConstants.KEY_DAYDELTA));
+				}
+			}
+			else {
+				throw new FacesException("component value should be an instance of " + Collection.class.getName());
 			}
 		}
 	}
 
-	private void doAction(String[] restParts) {
-		if (ACTION_MOVE.equals(restParts[0])) {
-			
+	private void moveEvent(Collection events, String id, String daydelta) {
+		for (Object obj : events) {
+			Event event = (Event) obj;
+
+			if (event.getEventId().equals(new Long(id))) {
+				System.out.println(event.getStartDate());
+				System.out.println(event.getEndDate());
+			}
 		}
 	}
 }

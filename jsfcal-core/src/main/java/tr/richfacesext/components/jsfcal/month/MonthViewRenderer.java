@@ -43,7 +43,7 @@ public class MonthViewRenderer extends Renderer {
 
 	private void encodeWidget(ResponseWriter writer, MonthView monthView) throws IOException {
 		ValueExpression valueVE = monthView.getValueExpression("value");
-        String c = valueVE.getExpressionString();
+        String valueStr = valueVE.getExpressionString();
 		
 		writer.write("" +
 		"<script type=\"text/javascript\">\n" +
@@ -64,7 +64,7 @@ public class MonthViewRenderer extends Renderer {
 					getEventsAsStr(monthView.getEvents()) +
 				"\t\t],\n" +
 				"\t\teventDrop: function(calEvent, dayDelta, jsEvent, ui) {\n" +
-				"jQuery.get('" + ComponentConstants.FACES_PREFIX + MonthViewConstants.PL_MONTH_ACTIONS + "" + "');" +
+				"jQuery.get('" + ComponentConstants.FACES_PREFIX + MonthViewConstants.PL_MONTH_ACTIONS + "?" + MonthViewConstants.KEY_EL + "=" + valueStr.substring(2, valueStr.length()-1) + "&" + MonthViewConstants.KEY_ACTION + "=" + "move" + "&" + MonthViewConstants.KEY_ID + "=" + "' + calEvent.id + '" + "&" + MonthViewConstants.KEY_DAYDELTA + "=" + "' + dayDelta);" +
 				"\t\t\t" +
 				"\t\t}," +				
 			"\t});\n" +
