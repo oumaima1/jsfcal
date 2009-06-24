@@ -55,4 +55,9 @@ public class CalEvent implements Event {
 	public void setReadOnly(boolean isReadOnly) {
 		this.isReadOnly = isReadOnly;
 	}
+	
+	@Override
+	public String toString() {
+		return id + " - " + title + " - " + " start:" + startDate + " end:" + endDate + " readonly:" + isReadOnly;
+	}
 }

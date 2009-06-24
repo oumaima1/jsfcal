@@ -28,4 +28,9 @@ public interface MonthViewConstants {
 	
 	String PL_MONTH_ACTIONS 	= ".jsfcalMonthAction";
 	String PL_EXPORT_ACTIONS 	= ".jsfcalExportAction";
+	
+	String KEY_EL 				= "el";
+	String KEY_ACTION 			= "action";
+	String KEY_ID 				= "id";
+	String KEY_DAYDELTA 		= "dayDelta";
 }
