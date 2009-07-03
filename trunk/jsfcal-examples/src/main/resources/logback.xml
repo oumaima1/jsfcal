@@ -5,8 +5,8 @@
 		</layout>
 	</appender>
 
-	<logger name="com.ontometrics">
-		<level value="WARN"/>
+	<logger name="tr.richfacesext">
+		<level value="DEBUG"/>
 	</logger>
 
 	<root>

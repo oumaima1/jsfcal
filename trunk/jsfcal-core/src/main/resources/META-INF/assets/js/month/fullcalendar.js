@@ -132,11 +132,11 @@
 			}
 			
 			function exportical() {
-				alert('TODO - export to ical');
+				jQuery.get(FACES_PREFIX + PL_EXPORT_ACTIONS + "?type=ical&month=" + month);
 			}
 			
 			function exportoutlook() {
-				alert('TODO - export to outlook');
+				jQuery.get(FACES_PREFIX + PL_EXPORT_ACTIONS + "?type=outlook&month=" + month);
 			}
 						
 			

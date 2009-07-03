@@ -4,7 +4,7 @@
 		"-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
 		"http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
 
-<faces-config xmlns="http://java.sun.com/JSF/Configuration">
+<faces-config>
 
 	<lifecycle>
 		<phase-listener>tr.richfacesext.pl.RichFacesExtResourceLoaderPhaseListener</phase-listener>		

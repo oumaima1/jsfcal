@@ -31,14 +31,14 @@ public class MonthViewRenderer extends Renderer {
 	}
 
 	private void encodeIncludeStyles(FacesContext context, ResponseWriter writer, MonthView monthView) throws IOException {
-		ComponentUtils.encodeIncludeStyle(context, writer, monthView, "", MonthViewConstants.STYLE_FULLCALENDAR);
+		ComponentUtils.encodeIncludeStyle(context, writer, monthView, MonthViewConstants.STYLE_FULLCALENDAR);
 	}
 
 	private void encodeIncludeScripts(FacesContext context, ResponseWriter writer, MonthView monthView) throws IOException {
-		ComponentUtils.encodeIncludeScript(context, writer, monthView, "", MonthViewConstants.SCRIPT_JQUERY);
-		ComponentUtils.encodeIncludeScript(context, writer, monthView, "", MonthViewConstants.SCRIPT_UI_CORE);
-		ComponentUtils.encodeIncludeScript(context, writer, monthView, "", MonthViewConstants.SCRIPT_UI_DRAGGABLE);
-		ComponentUtils.encodeIncludeScript(context, writer, monthView, "", MonthViewConstants.SCRIPT_FULLCALENDAR);
+		ComponentUtils.encodeIncludeScript(context, writer, monthView, MonthViewConstants.SCRIPT_JQUERY);
+		ComponentUtils.encodeIncludeScript(context, writer, monthView, MonthViewConstants.SCRIPT_UI_CORE);
+		ComponentUtils.encodeIncludeScript(context, writer, monthView, MonthViewConstants.SCRIPT_UI_DRAGGABLE);
+		ComponentUtils.encodeIncludeScript(context, writer, monthView, MonthViewConstants.SCRIPT_FULLCALENDAR);
 	}
 
 	private void encodeWidget(ResponseWriter writer, MonthView monthView) throws IOException {
@@ -52,6 +52,8 @@ public class MonthViewRenderer extends Renderer {
 		"var GIF_PREVMONTH = '" + MonthViewConstants.GIF_PREVMONTH + "';\n" + 
 		"var GIF_NEXTMONTH = '" + MonthViewConstants.GIF_NEXTMONTH + "';\n" + 
 		"var GIF_TODAY = '" + MonthViewConstants.GIF_TODAY + "';\n" + 
+		"var FACES_PREFIX = '" + ComponentConstants.FACES_PREFIX + "';\n" + 
+		"var PL_EXPORT_ACTIONS = '" + MonthViewConstants.PL_EXPORT_ACTIONS + "';\n" + 
 		"\n" +
 		"$(document).ready(function() {\n" +
 			"\t$('#" + monthView.getId() + "').fullCalendar({\n" +
@@ -64,7 +66,10 @@ public class MonthViewRenderer extends Renderer {
 					getEventsAsStr(monthView.getEvents()) +
 				"\t\t],\n" +
 				"\t\teventDrop: function(calEvent, dayDelta, jsEvent, ui) {\n" +
-				"jQuery.get('" + ComponentConstants.FACES_PREFIX + MonthViewConstants.PL_MONTH_ACTIONS + "?" + MonthViewConstants.KEY_EL + "=" + valueStr.substring(2, valueStr.length()-1) + "&" + MonthViewConstants.KEY_ACTION + "=" + "move" + "&" + MonthViewConstants.KEY_ID + "=" + "' + calEvent.id + '" + "&" + MonthViewConstants.KEY_DAYDELTA + "=" + "' + dayDelta);" +
+				"jQuery.get('" + ComponentConstants.FACES_PREFIX + MonthViewConstants.PL_MONTH_ACTIONS + "?" + 
+						MonthViewConstants.KEY_EL + "=" + valueStr.substring(2, valueStr.length()-1) + "&" + 
+						MonthViewConstants.KEY_ACTION + "=" + "move" + "&" + MonthViewConstants.KEY_ID + "=" 
+						+ "' + calEvent.id + '" + "&" + MonthViewConstants.KEY_DAYDELTA + "=" + "' + dayDelta);" +
 				"\t\t\t" +
 				"\t\t}," +				
 			"\t});\n" +
@@ -95,6 +100,14 @@ public class MonthViewRenderer extends Renderer {
 	}
 
 	private void encodeMarkup(ResponseWriter writer, MonthView monthView) throws IOException {
-		writer.write("<div style=\"width:" + monthView.getWidth() + "px;height:" + monthView.getHeight() + "\" id=\"" + monthView.getId() + "\"></div>");
+		writer.write("<div style=\"width:" + monthView.getWidth() + "px;height:" + calculateHeightAccordingToWidth(monthView.getWidth(), monthView.getHeight()) + "\" id=\"" + monthView.getId() + "\"></div>");
+	}
+
+	private String calculateHeightAccordingToWidth(Integer width, Integer height) {
+		float ratio = 1.18f;
+		if (height<width/ratio) {
+			return String.valueOf((int)width/ratio);
+		}
+		return String.valueOf(height);
 	}
 }
