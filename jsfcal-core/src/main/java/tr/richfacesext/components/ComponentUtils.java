@@ -388,22 +388,22 @@ public abstract class ComponentUtils {
 	}
 
 	public static void encodeIncludeScript(FacesContext context,
-			ResponseWriter writer, UIComponent component, String contextPath,
+			ResponseWriter writer, UIComponent component,
 			String scriptId) throws IOException {
 		writer.startElement("script", component);
 		writer.writeAttribute("type", "text/javascript", null);
-		writer.writeAttribute("src", contextPath + scriptId, null);
+		writer.writeAttribute("src", scriptId, null);
 		writer.endElement("script");
 		writer.write("\n");
 	}
 
 	public static void encodeIncludeStyle(FacesContext context,
-			ResponseWriter writer, UIComponent component, String contextPath,
+			ResponseWriter writer, UIComponent component,
 			String styleId) throws IOException {
 		writer.startElement("link", component);
 		writer.writeAttribute("type", "text/css", null);
 		writer.writeAttribute("rel", "stylesheet", null);
-		writer.writeAttribute("href", contextPath + styleId, null);
+		writer.writeAttribute("href", styleId, null);
 		writer.endElement("link");
 		writer.write("\n");
 	}

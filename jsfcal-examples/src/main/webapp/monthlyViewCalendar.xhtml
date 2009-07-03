@@ -3,18 +3,10 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:c="http://java.sun.com/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich"
 	xmlns:jsfcal="http://code.google.com/p/jsfcal">
 	<body>
 		<h:form name="form1">
 			<jsfcal:month id="monthView" value="#{monthViewController.events}" />
-			<br/>
-			<br/>
-			<br/>
-			<br/>
-			<br/>
-			<br/>
 			<h:dataTable id="tbl_events" value="#{monthViewController.events}" var="event">
 				<h:column>
 					<h:outputText value="#{event.title}" />
@@ -22,4 +14,4 @@
 			</h:dataTable>
 		</h:form>
 	</body>	
-</html> 
+</html>

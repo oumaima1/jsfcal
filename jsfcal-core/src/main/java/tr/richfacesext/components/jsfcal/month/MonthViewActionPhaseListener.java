@@ -11,6 +11,7 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,10 +77,10 @@ public class MonthViewActionPhaseListener implements PhaseListener {
 	private void moveEvent(Collection events, String id, String daydelta) {
 		for (Object obj : events) {
 			Event event = (Event) obj;
-
+				
 			if (event.getEventId().equals(new Long(id))) {
-				System.out.println(event.getStartDate());
-				System.out.println(event.getEndDate());
+				event.getStartDate().setTime(new DateTime(event.getStartDate().getTime()).plusDays(Integer.parseInt(daydelta)).getMillis());
+				event.getEndDate().setTime(new DateTime(event.getEndDate().getTime()).plusDays(Integer.parseInt(daydelta)).getMillis());
 			}
 		}
 	}

@@ -15,7 +15,7 @@ import tr.richfacesext.components.jsfcal.Event;
  * @author mert
  *
  */
-public class MonthView extends UIInput{
+public class MonthView extends UIInput {
 
 
 	private Integer _initYear;
@@ -72,7 +72,7 @@ public class MonthView extends UIInput{
 			return _width;
 
 		ValueBinding vb = getValueBinding("width");
-		return vb != null ? (java.lang.Integer) vb.getValue(getFacesContext()) : new Integer("700");
+		return vb != null ? (java.lang.Integer) vb.getValue(getFacesContext()) : new Integer("650");
 	}
 	public void setWidth(Integer widthValue) {
 		_width = widthValue;
@@ -83,7 +83,7 @@ public class MonthView extends UIInput{
 			return _height;
 
 		ValueBinding vb = getValueBinding("height");
-		return vb != null ? (java.lang.Integer) vb.getValue(getFacesContext()) : new Integer("450");
+		return vb != null ? (java.lang.Integer) vb.getValue(getFacesContext()) : new Integer("550");
 	}
 	public void setHeight(Integer heightValue) {
 		_height = heightValue;
