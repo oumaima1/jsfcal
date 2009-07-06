@@ -48,12 +48,12 @@ public class MonthViewRenderer extends Renderer {
 		writer.write("" +
 		"<script type=\"text/javascript\">\n" +
 		"var GIF_ICAL = '" + MonthViewConstants.GIF_ICAL + "';\n" + 
-		"var GIF_OUTLOOK = '" + MonthViewConstants.GIF_OUTLOOK + "';\n" + 
 		"var GIF_PREVMONTH = '" + MonthViewConstants.GIF_PREVMONTH + "';\n" + 
 		"var GIF_NEXTMONTH = '" + MonthViewConstants.GIF_NEXTMONTH + "';\n" + 
 		"var GIF_TODAY = '" + MonthViewConstants.GIF_TODAY + "';\n" + 
 		"var FACES_PREFIX = '" + ComponentConstants.FACES_PREFIX + "';\n" + 
-		"var PL_EXPORT_ACTIONS = '" + MonthViewConstants.PL_EXPORT_ACTIONS + "';\n" + 
+		"var PL_EXPORT_ACTIONS = '" + MonthViewConstants.PL_EXPORT_ACTIONS + "';\n" +
+		"var VB_EL = '" + valueStr.substring(2, valueStr.length()-1) + "';\n" +
 		"\n" +
 		"$(document).ready(function() {\n" +
 			"\t$('#" + monthView.getId() + "').fullCalendar({\n" +
@@ -67,11 +67,10 @@ public class MonthViewRenderer extends Renderer {
 				"\t\t],\n" +
 				"\t\teventDrop: function(calEvent, dayDelta, jsEvent, ui) {\n" +
 				"jQuery.get('" + ComponentConstants.FACES_PREFIX + MonthViewConstants.PL_MONTH_ACTIONS + "?" + 
-						MonthViewConstants.KEY_EL + "=" + valueStr.substring(2, valueStr.length()-1) + "&" + 
+						MonthViewConstants.KEY_EL + "=' + " + "VB_EL" + " + '&" + 
 						MonthViewConstants.KEY_ACTION + "=" + "move" + "&" + MonthViewConstants.KEY_ID + "=" 
-						+ "' + calEvent.id + '" + "&" + MonthViewConstants.KEY_DAYDELTA + "=" + "' + dayDelta);" +
-				"\t\t\t" +
-				"\t\t}," +				
+						+ "' + calEvent.id + '" + "&" + MonthViewConstants.KEY_DAYDELTA + "=" + "' + dayDelta);\n" +
+				"\t\t}\n" +				
 			"\t});\n" +
 		"});\n" +
 		"</script>");		
@@ -100,13 +99,13 @@ public class MonthViewRenderer extends Renderer {
 	}
 
 	private void encodeMarkup(ResponseWriter writer, MonthView monthView) throws IOException {
-		writer.write("<div style=\"width:" + monthView.getWidth() + "px;height:" + calculateHeightAccordingToWidth(monthView.getWidth(), monthView.getHeight()) + "\" id=\"" + monthView.getId() + "\"></div>");
+		writer.write("<div style=\"width:" + monthView.getWidth() + "px;height:" + calculateHeightAccordingToWidth(monthView.getWidth(), monthView.getHeight()) + "px\" id=\"" + monthView.getId() + "\"></div>");
 	}
 
 	private String calculateHeightAccordingToWidth(Integer width, Integer height) {
 		float ratio = 1.18f;
 		if (height<width/ratio) {
-			return String.valueOf((int)width/ratio);
+			return String.valueOf((int)(width/ratio));
 		}
 		return String.valueOf(height);
 	}

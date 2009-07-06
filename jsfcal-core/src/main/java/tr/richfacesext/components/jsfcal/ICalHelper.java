@@ -1,10 +1,7 @@
 package tr.richfacesext.components.jsfcal;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Calendar;
@@ -12,8 +9,16 @@ import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.ValidationException;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.CalScale;
+import net.fortuna.ical4j.model.property.Description;
+import net.fortuna.ical4j.model.property.DtEnd;
+import net.fortuna.ical4j.model.property.DtStart;
 import net.fortuna.ical4j.model.property.ProdId;
+import net.fortuna.ical4j.model.property.Summary;
+import net.fortuna.ical4j.model.property.Uid;
 import net.fortuna.ical4j.model.property.Version;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -34,17 +39,27 @@ public abstract class ICalHelper {
 	}
 	
 	public static VEvent createEvent(Event event) {
-		DateTime start = new DateTime(event.getStartDate().getTime());
-		DateTime end = new DateTime(event.getEndDate().getTime());
-		VEvent iCalEvent = new VEvent(start,end,event.getTitle());
+		VEvent vEvent = new VEvent();
 		
-		return iCalEvent;
+		vEvent.getProperties().add(new Uid(String.valueOf(event.getEventId())));
+		vEvent.getProperties().add(new Summary(event.getTitle()));
+		vEvent.getProperties().add(new Description(event.getDescription()));
+		vEvent.getProperties().add(new DtStart(new DateTime(event.getStartDate().getTime())));
+		vEvent.getProperties().add(new DtEnd(new DateTime(event.getEndDate().getTime())));
+		
+		return vEvent;
 	}
 	
-	public static void writeICalOut(Calendar calendar, OutputStream output) {
+	public static void addEventToCalendar(Calendar calendar, VEvent event) {
+		calendar.getComponents().add(event);
+	}
+	
+	public static byte[] getCalAsByteArr(Calendar calendar) {
+		ByteArrayOutputStream bout = new ByteArrayOutputStream();
 		CalendarOutputter outputter = new CalendarOutputter();
 		try {
-			outputter.output(calendar, output);
+			outputter.output(calendar, bout);
+			return bout.toByteArray();
 		} 
 		catch (IOException e) {
 			logger.error("Error occured while writing to ical stream", e);
@@ -52,5 +67,6 @@ public abstract class ICalHelper {
 		catch (ValidationException e) {
 			logger.error("Error occured while validating iCal", e);
 		}
+		return null;
 	}
 }

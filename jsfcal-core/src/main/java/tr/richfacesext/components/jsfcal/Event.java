@@ -14,6 +14,8 @@ public interface Event extends Serializable {
 	
 	String getTitle();
 	
+	String getDescription();
+	
 	Date getStartDate();
 	
 	Date getEndDate();

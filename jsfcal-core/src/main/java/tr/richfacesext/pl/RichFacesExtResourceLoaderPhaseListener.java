@@ -109,10 +109,12 @@ public class RichFacesExtResourceLoaderPhaseListener implements PhaseListener {
 			}
 
 			InputStream inputStream = clazz.getResourceAsStream(resourcePath);
+			ServletOutputStream outputStream = response.getOutputStream();
+			
 			response.setContentType(contentType);
 			response.setStatus(200);
-			
-			ServletOutputStream outputStream = response.getOutputStream();
+			response.setDateHeader("Last-Modified", lastModificationTime);
+			response.setDateHeader("Expires", getCacheInfo());
 
 			for (indice = 0; (indice = inputStream.read(byteArr)) > 0;) {
 				tempIndice = mainArr.length + indice;
@@ -126,10 +128,6 @@ public class RichFacesExtResourceLoaderPhaseListener implements PhaseListener {
 			outputStream.flush();
 			outputStream.close();
 
-			response.setContentType(contentType);
-			response.setStatus(200);
-			response.setDateHeader("Last-Modified", lastModificationTime);
-			response.setDateHeader("Expires", getCacheInfo());
 			facesContext.responseComplete();
 		} 
 		catch (Exception e) {

@@ -131,14 +131,9 @@
 				refreshMonth();
 			}
 			
-			function exportical() {
-				jQuery.get(FACES_PREFIX + PL_EXPORT_ACTIONS + "?type=ical&month=" + month);
+			function exportical() { 
+				jQuery.get(FACES_PREFIX + PL_EXPORT_ACTIONS + "?el=" + VB_EL + "&type=ical&month=" + date.getMonth() + "&year=" + date.getFullYear());
 			}
-			
-			function exportoutlook() {
-				jQuery.get(FACES_PREFIX + PL_EXPORT_ACTIONS + "?type=outlook&month=" + month);
-			}
-						
 			
 			//
 			// Publicly accessible methods
@@ -303,10 +298,6 @@
 					var b = $("<img src='" + GIF_ICAL + "' height='32' width='32' />").click(exportical);
 					buttons.append(b);					
 				}
-				if (bo == true || bo.outlook !== false) {
-					var b = $("<img src='" + GIF_OUTLOOK + "' height='32' width='32' />").click(exportoutlook);
-					buttons.append(b);					
-				}				
 				if (bo.prevYear) {
 					var b = $("<button class='prev-year' />")
 						.append($("<span />")
@@ -780,12 +771,6 @@
 					eventElements[i][1].remove();
 				eventElements = [];
 			}
-		
-		
-		
-		
-		
-		
 		
 			/*******************************************************************/
 			//

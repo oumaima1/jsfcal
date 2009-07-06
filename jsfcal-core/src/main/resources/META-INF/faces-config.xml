@@ -7,7 +7,7 @@
 <faces-config>
 
 	<lifecycle>
-		<phase-listener>tr.richfacesext.pl.RichFacesExtResourceLoaderPhaseListener</phase-listener>		
+		<phase-listener>tr.richfacesext.pl.RichFacesExtResourceLoaderPhaseListener</phase-listener>
 		<phase-listener>tr.richfacesext.components.jsfcal.month.MonthViewActionPhaseListener</phase-listener>		
 		<phase-listener>tr.richfacesext.components.jsfcal.month.MonthViewExportPhaseListener</phase-listener>		
 	</lifecycle>
