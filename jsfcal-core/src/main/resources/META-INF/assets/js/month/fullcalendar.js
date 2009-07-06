@@ -132,7 +132,7 @@
 			}
 			
 			function exportical() { 
-				jQuery.get(FACES_PREFIX + PL_EXPORT_ACTIONS + "?el=" + VB_EL + "&type=ical&month=" + date.getMonth() + "&year=" + date.getFullYear());
+				window.open(FACES_PREFIX + PL_EXPORT_ACTIONS + "?el=" + VB_EL + "&type=ical&month=" + date.getMonth() + "&year=" + date.getFullYear());
 			}
 			
 			//
