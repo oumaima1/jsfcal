@@ -18,9 +18,9 @@ public class MonthViewController {
 	
 	public List<Event> getEvents() {
 		if (events.isEmpty()) {
-			events.add(new CalEvent(1, "Birthday Party", today1Pm(), today6Pm(), false));
-			events.add(new CalEvent(2, "Breakfast at Tiffanys", nextDay9Am(), nextDay11Am(), false));
-			events.add(new CalEvent(3, "Plant the new garden stuff", today3Pm(), theDayAfter3pm(), false));
+			events.add(new CalEvent(1, "Birthday Party", "nice party", today1Pm(), today6Pm(), false));
+			events.add(new CalEvent(2, "Breakfast at Tiffanys", "great brunch", nextDay9Am(), nextDay11Am(), false));
+			events.add(new CalEvent(3, "Plant the new garden stuff", "meditation time", today3Pm(), theDayAfter3pm(), false));
 		}
 		return events;
 	}
