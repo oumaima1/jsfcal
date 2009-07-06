@@ -141,6 +141,4 @@ public class MonthViewExportPhaseListener implements PhaseListener {
 		
 		return calEvents;
 	}
-	
-	
 }
