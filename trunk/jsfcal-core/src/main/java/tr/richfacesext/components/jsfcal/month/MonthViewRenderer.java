@@ -66,14 +66,20 @@ public class MonthViewRenderer extends Renderer {
 					getEventsAsStr(monthView.getEvents()) +
 				"\t\t],\n" +
 				"\t\teventDrop: function(calEvent, dayDelta, jsEvent, ui) {\n" +
-				"jQuery.get('" + ComponentConstants.FACES_PREFIX + MonthViewConstants.PL_MONTH_ACTIONS + "?" + 
+				"\t\t\tjQuery.get('" + ComponentConstants.FACES_PREFIX + MonthViewConstants.PL_MONTH_ACTIONS + "?" + 
 						MonthViewConstants.KEY_EL + "=' + " + "VB_EL" + " + '&" + 
 						MonthViewConstants.KEY_ACTION + "=" + "move" + "&" + MonthViewConstants.KEY_ID + "=" 
 						+ "' + calEvent.id + '" + "&" + MonthViewConstants.KEY_DAYDELTA + "=" + "' + dayDelta);\n" +
 				"\t\t}\n" +				
 			"\t});\n" +
-		"});\n" +
-		"</script>");		
+		"});\n");
+		
+		if (! MonthViewConstants.DEFAULT_CAL_LOCALE.equals(monthView.getLanguage())) {
+			writer.write("jQuery.getScript(\"" + MonthViewConstants.SCRIPT_LOCALE_PREFIX + monthView.getLanguage() + MonthViewConstants.SCRIPT_LOCALE_SUFFIX + "\", function() {\n" +
+			"\t$('#" + monthView.getId() + "').fullCalendar('refresh');\n" +
+			"});\n"); 		
+		}
+		writer.write("</script>");		
 	}
 	
 	private String getEventsAsStr(Collection<Event> events) {

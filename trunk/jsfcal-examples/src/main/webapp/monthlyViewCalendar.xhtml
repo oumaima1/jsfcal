@@ -6,12 +6,7 @@
 	xmlns:jsfcal="http://code.google.com/p/jsfcal">
 	<body>
 		<h:form name="form1">
-			<jsfcal:month id="monthView" value="#{monthViewController.events}" />
-			<h:dataTable id="tbl_events" value="#{monthViewController.events}" var="event">
-				<h:column>
-					<h:outputText value="#{event.title}" />
-				</h:column>
-			</h:dataTable>
+			<jsfcal:month id="monthView" value="#{monthViewController.events}" language="tr" />
 		</h:form>
 	</body>	
 </html>

@@ -25,6 +25,7 @@ public class MonthViewTag extends UIComponentTag {
 	private String _height = null;
 	private String _abbrevDayHeadings = null;
 	private String _title = null;
+	private String _language = null;
 
 	public void release(){
 		super.release();
@@ -41,6 +42,7 @@ public class MonthViewTag extends UIComponentTag {
 		_height = null;
 		_abbrevDayHeadings = null;
 		_title = null;
+		_language = null;
 	}
 
 	protected void setProperties(UIComponent uicomponent){
@@ -59,6 +61,7 @@ public class MonthViewTag extends UIComponentTag {
 		ComponentUtils.setIntegerProperty(getFacesContext(), uicomponent, "height", _height );
 		ComponentUtils.setBooleanProperty(getFacesContext(), uicomponent, "abbrevDayHeadings", _abbrevDayHeadings );
 		ComponentUtils.setBooleanProperty(getFacesContext(), uicomponent, "title", _title );
+		ComponentUtils.setStringProperty(getFacesContext(), uicomponent, "language", _language );
 	}
 
 	public String getComponentType() {
@@ -120,5 +123,8 @@ public class MonthViewTag extends UIComponentTag {
 	public void setTitle(String value){
 		_title = value;
 	}
-
+	
+	public void setLanguage(String value){
+		_language = value;
+	}
 }
