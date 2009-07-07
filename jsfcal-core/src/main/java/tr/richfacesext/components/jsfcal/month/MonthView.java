@@ -25,6 +25,7 @@ public class MonthView extends UIInput {
 	private Integer _height;
 	private Boolean _abbrevDayHeadings;
 	private Boolean _title;
+	private String _language;
 
 	public MonthView() {
 		setRendererType(MonthViewConstants.DEFAULT_RENDERER);
@@ -110,9 +111,21 @@ public class MonthView extends UIInput {
 	public void setTitle(Boolean titleValue) {
 		_title = titleValue;
 	}
+	
+	public String getLanguage() {
+		if(_language != null )
+			return _language;
+		
+		ValueBinding vb = getValueBinding("language");
+		return vb != null ? (java.lang.String) vb.getValue(getFacesContext()) : MonthViewConstants.DEFAULT_CAL_LOCALE;
+	}
+	
+	public void setLanguage(String languageValue) {
+		_language = languageValue;
+	}
 
 	public Object saveState(FacesContext context) {
-		Object values[] = new Object[8];
+		Object values[] = new Object[9];
 		values[0] = super.saveState(context);
 		values[1] = _initYear;
 		values[2] = _initMonth;
@@ -121,6 +134,7 @@ public class MonthView extends UIInput {
 		values[5] = _height;
 		values[6] = _abbrevDayHeadings;
 		values[7] = _title;
+		values[8] = _language;
 		return ((Object) values);
 	}
 	public void restoreState(FacesContext context, Object state) {
@@ -133,6 +147,7 @@ public class MonthView extends UIInput {
 		_height = (Integer) values[5];
 		_abbrevDayHeadings = (Boolean) values[6];
 		_title = (Boolean) values[7];
+		_language = (String) values[8];
 	}
 
 	public Collection<Event> getEvents() {

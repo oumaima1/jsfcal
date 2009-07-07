@@ -64,6 +64,7 @@ public class MonthViewActionPhaseListener implements PhaseListener {
 			
 			if (events instanceof Collection) {
 				Collection eventsCol = (Collection) events;
+				
 				if (ACTION_MOVE.equals(paramAction)) {
 					moveEvent(eventsCol, (String) params.get(MonthViewConstants.KEY_ID),(String) params.get(MonthViewConstants.KEY_DAYDELTA));
 				}
