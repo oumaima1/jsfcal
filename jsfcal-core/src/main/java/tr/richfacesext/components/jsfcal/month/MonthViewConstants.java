@@ -1,5 +1,8 @@
 package tr.richfacesext.components.jsfcal.month;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import tr.richfacesext.components.ComponentConstants;
 
 /**
@@ -13,7 +16,22 @@ public interface MonthViewConstants {
 	String COMPONENT_FAMILY = "tr.richfacesext.components.jsfcal";
 	String DEFAULT_RENDERER = "tr.richfacesext.components.jsfcal.month.MonthViewRenderer";
 
-	String DEFAULT_CAL_LOCALE = "en";
+	String LOCALE_ENG = "en"; // default
+	String LOCALE_FR = "fr";
+	String LOCALE_DE = "de";
+	String LOCALE_TR = "tr";
+	
+	Map<String, Integer> weekStarts = new HashMap<String, Integer>() {
+		{
+			put(LOCALE_ENG, 0);
+			put(LOCALE_DE, 0);
+			put(LOCALE_TR, 0);
+			put(LOCALE_FR, 1);
+		}
+	};
+	
+	String SCRIPT_LOCALE_PREFIX	= ComponentConstants.RICHFACES_RESOURCE_FOLDER + "/" + ComponentConstants.SUBFOLDER_JS + "/month/" + "fullcalendar.locale.";
+	String SCRIPT_LOCALE_SUFFIX	= ".js";
 	
 	String STYLE_FULLCALENDAR 	= ComponentConstants.FACES_PREFIX  + ComponentConstants.RICHFACESEXT_RESOURCE_LOADER_VIEW_ID + "/month/" + "fullcalendar.css";
 	
@@ -21,9 +39,6 @@ public interface MonthViewConstants {
 	String SCRIPT_UI_CORE 		= ComponentConstants.FACES_PREFIX  + ComponentConstants.RICHFACESEXT_RESOURCE_LOADER_VIEW_ID + "/core/" + "ui.core.js";
 	String SCRIPT_UI_DRAGGABLE 	= ComponentConstants.FACES_PREFIX  + ComponentConstants.RICHFACESEXT_RESOURCE_LOADER_VIEW_ID + "/core/" + "ui.draggable.js";
 	String SCRIPT_FULLCALENDAR 	= ComponentConstants.FACES_PREFIX  + ComponentConstants.RICHFACESEXT_RESOURCE_LOADER_VIEW_ID + "/month/" + "fullcalendar.js";
-	
-	String SCRIPT_LOCALE_PREFIX	= ComponentConstants.FACES_PREFIX  + ComponentConstants.RICHFACESEXT_RESOURCE_LOADER_VIEW_ID + "/month/" + "fullcalendar.locale.";
-	String SCRIPT_LOCALE_SUFFIX	= ".js";
 	
 	String GIF_ICAL 			= ComponentConstants.FACES_PREFIX  + ComponentConstants.RICHFACESEXT_RESOURCE_LOADER_VIEW_ID + "/month/" + "ical.gif";
 	String GIF_OUTLOOK 			= ComponentConstants.FACES_PREFIX  + ComponentConstants.RICHFACESEXT_RESOURCE_LOADER_VIEW_ID + "/month/" + "outlook.gif";

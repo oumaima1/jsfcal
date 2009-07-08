@@ -24,6 +24,7 @@ import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.webapp.UIComponentTag;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 
@@ -396,6 +397,16 @@ public abstract class ComponentUtils {
 		writer.endElement("script");
 		writer.write("\n");
 	}
+	
+	public static void encodeIncludeScript(FacesContext context,
+			ResponseWriter writer, UIComponent component, String appURL,
+			String scriptId) throws IOException {
+		writer.startElement("script", component);
+		writer.writeAttribute("type", "text/javascript", null);
+		writer.writeAttribute("src", appURL + "/" + scriptId, null);
+		writer.endElement("script");
+		writer.write("\n");
+	}
 
 	public static void encodeIncludeStyle(FacesContext context,
 			ResponseWriter writer, UIComponent component,
@@ -404,6 +415,17 @@ public abstract class ComponentUtils {
 		writer.writeAttribute("type", "text/css", null);
 		writer.writeAttribute("rel", "stylesheet", null);
 		writer.writeAttribute("href", styleId, null);
+		writer.endElement("link");
+		writer.write("\n");
+	}
+	
+	public static void encodeIncludeStyle(FacesContext context,
+			ResponseWriter writer, UIComponent component, String appURL,
+			String styleId) throws IOException {
+		writer.startElement("link", component);
+		writer.writeAttribute("type", "text/css", null);
+		writer.writeAttribute("rel", "stylesheet", null);
+		writer.writeAttribute("href", appURL + "/" + styleId, null);
 		writer.endElement("link");
 		writer.write("\n");
 	}
@@ -480,4 +502,15 @@ public abstract class ComponentUtils {
 		}
 		return sb.toString();
 	}
+	
+	public static String getApplicationURL(FacesContext context) {
+		HttpServletRequest req = (HttpServletRequest) context.getExternalContext().getRequest();
+
+		String scheme = req.getScheme(); // http
+		String serverName = req.getServerName(); // hostname.com
+		int serverPort = req.getServerPort(); // 80
+		String appContext = req.getContextPath();
+		
+		return scheme + "://" + serverName + ":" + serverPort + appContext;
+	}		
 }
