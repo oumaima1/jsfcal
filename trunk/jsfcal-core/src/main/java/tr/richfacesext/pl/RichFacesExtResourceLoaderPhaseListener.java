@@ -31,11 +31,6 @@ public class RichFacesExtResourceLoaderPhaseListener implements PhaseListener {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
-	private static final String SUBFOLDER_IMG 	= "img";
-	private static final String SUBFOLDER_JS 	= "js";
-	private static final String SUBFOLDER_CSS 	= "css";
-	private static final String SUBFOLDER_FLASH	= "flash";
-
 	private long lastModificationTime = constructLastModifiedTime();
 	
 	public void beforePhase(PhaseEvent event) {
@@ -145,7 +140,6 @@ public class RichFacesExtResourceLoaderPhaseListener implements PhaseListener {
 	private long constructLastModifiedTime() {
 		long timeVal = 0;
 		try {
-			//TODO: Findbugs says this is unsafe, class should have its own formatter (not thread safe)..
 			String dateStr = SimpleDateFormat.getInstance().format(new Date());
 			timeVal = SimpleDateFormat.getInstance().parse(dateStr).getTime();
 		} 
@@ -180,13 +174,13 @@ public class RichFacesExtResourceLoaderPhaseListener implements PhaseListener {
 		String resourceSubFolder = "";
 		
 		if ("gif".equals(resourceType) || "jpg".equals(resourceType) || "png".equals(resourceType))
-			resourceSubFolder = SUBFOLDER_IMG; 
+			resourceSubFolder = ComponentConstants.SUBFOLDER_IMG; 
 		else if ("css".equals(resourceType))
-			resourceSubFolder = SUBFOLDER_CSS;
+			resourceSubFolder = ComponentConstants.SUBFOLDER_CSS;
 		else if ("js".equals(resourceType))
-			resourceSubFolder = SUBFOLDER_JS;
+			resourceSubFolder = ComponentConstants.SUBFOLDER_JS;
 		else if ("swf".equals(resourceType)) 
-			resourceSubFolder = SUBFOLDER_FLASH;
+			resourceSubFolder = ComponentConstants.SUBFOLDER_FLASH;
 		
 		return resourceSubFolder;
 	}

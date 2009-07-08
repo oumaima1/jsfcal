@@ -13,6 +13,11 @@ public interface ComponentConstants {
 	
 	String RICHFACES_RESOURCE_FOLDER = "/META-INF/assets";
 	
+	String SUBFOLDER_IMG 	= "img";
+	String SUBFOLDER_JS 	= "js";
+	String SUBFOLDER_CSS 	= "css";
+	String SUBFOLDER_FLASH	= "flash";
+	
 	String ACCESSKEY_ATTR = "accesskey";
 	String ALT_ATTR = "alt";
 	String DIR_ATTR = "dir";

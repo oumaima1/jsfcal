@@ -1,6 +1,10 @@
 package tr.richfacesext.components.jsfcal.month;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Collection;
 
 import javax.el.ValueExpression;
@@ -26,22 +30,24 @@ public class MonthViewRenderer extends Renderer {
 		
 		encodeIncludeStyles(context, writer, monthView);
 		encodeIncludeScripts(context, writer, monthView);
-		encodeWidget(writer, monthView);
+		encodeWidget(context, writer, monthView);
 		encodeMarkup(writer, monthView);
 	}
 
 	private void encodeIncludeStyles(FacesContext context, ResponseWriter writer, MonthView monthView) throws IOException {
-		ComponentUtils.encodeIncludeStyle(context, writer, monthView, MonthViewConstants.STYLE_FULLCALENDAR);
+		String appURL = ComponentUtils.getApplicationURL(context);
+		ComponentUtils.encodeIncludeStyle(context, writer, monthView, appURL, MonthViewConstants.STYLE_FULLCALENDAR);
 	}
 
 	private void encodeIncludeScripts(FacesContext context, ResponseWriter writer, MonthView monthView) throws IOException {
-		ComponentUtils.encodeIncludeScript(context, writer, monthView, MonthViewConstants.SCRIPT_JQUERY);
-		ComponentUtils.encodeIncludeScript(context, writer, monthView, MonthViewConstants.SCRIPT_UI_CORE);
-		ComponentUtils.encodeIncludeScript(context, writer, monthView, MonthViewConstants.SCRIPT_UI_DRAGGABLE);
-		ComponentUtils.encodeIncludeScript(context, writer, monthView, MonthViewConstants.SCRIPT_FULLCALENDAR);
+		String appURL = ComponentUtils.getApplicationURL(context);
+		ComponentUtils.encodeIncludeScript(context, writer, monthView, appURL, MonthViewConstants.SCRIPT_JQUERY);
+		ComponentUtils.encodeIncludeScript(context, writer, monthView, appURL, MonthViewConstants.SCRIPT_UI_CORE);
+		ComponentUtils.encodeIncludeScript(context, writer, monthView, appURL, MonthViewConstants.SCRIPT_UI_DRAGGABLE);
+		ComponentUtils.encodeIncludeScript(context, writer, monthView, appURL, MonthViewConstants.SCRIPT_FULLCALENDAR);
 	}
 
-	private void encodeWidget(ResponseWriter writer, MonthView monthView) throws IOException {
+	private void encodeWidget(FacesContext context, ResponseWriter writer, MonthView monthView) throws IOException {
 		ValueExpression valueVE = monthView.getValueExpression("value");
         String valueStr = valueVE.getExpressionString();
 		
@@ -55,8 +61,8 @@ public class MonthViewRenderer extends Renderer {
 		"var PL_EXPORT_ACTIONS = '" + MonthViewConstants.PL_EXPORT_ACTIONS + "';\n" +
 		"var VB_EL = '" + valueStr.substring(2, valueStr.length()-1) + "';\n" +
 		"\n" +
-		"$(document).ready(function() {\n" +
-			"\t$('#" + monthView.getId() + "').fullCalendar({\n" +
+		"jQuery(document).ready(function() {\n" +
+			"\tjQuery('#" + monthView.getId() + "').fullCalendar({\n" +
 				"\t\tyear: " + monthView.getYear() + ",\n" +
 				"\t\tmonth: " + monthView.getMonth() + ",\n" +
 				"\t\tdraggable: " + !monthView.getReadOnly() + ",\n" +
@@ -67,21 +73,29 @@ public class MonthViewRenderer extends Renderer {
 				"\t\t],\n" +
 				"\t\teventDrop: function(calEvent, dayDelta, jsEvent, ui) {\n" +
 				"\t\t\tjQuery.get('" + ComponentConstants.FACES_PREFIX + MonthViewConstants.PL_MONTH_ACTIONS + "?" + 
-						MonthViewConstants.KEY_EL + "=' + " + "VB_EL" + " + '&" + 
-						MonthViewConstants.KEY_ACTION + "=" + "move" + "&" + MonthViewConstants.KEY_ID + "=" 
-						+ "' + calEvent.id + '" + "&" + MonthViewConstants.KEY_DAYDELTA + "=" + "' + dayDelta);\n" +
-				"\t\t}\n" +				
-			"\t});\n" +
+					MonthViewConstants.KEY_EL + "=' + " + "VB_EL" + " + '&" + 
+					MonthViewConstants.KEY_ACTION + "=" + "move" + "&" + MonthViewConstants.KEY_ID + "=" 
+					+ "' + calEvent.id + '" + "&" + MonthViewConstants.KEY_DAYDELTA + "=" + "' + dayDelta);\n" +
+				"\t\t}\n");
+				writer.write("\t});\n" +
 		"});\n");
-		
-		if (! MonthViewConstants.DEFAULT_CAL_LOCALE.equals(monthView.getLanguage())) {
-			writer.write("jQuery.getScript(\"" + MonthViewConstants.SCRIPT_LOCALE_PREFIX + monthView.getLanguage() + MonthViewConstants.SCRIPT_LOCALE_SUFFIX + "\", function() {\n" +
-			"\t$('#" + monthView.getId() + "').fullCalendar('refresh');\n" +
-			"});\n"); 		
-		}
+		renderLocaleIfApplicable(writer, monthView);
 		writer.write("</script>");		
 	}
 	
+	private void renderLocaleIfApplicable(ResponseWriter writer, MonthView monthView) throws IOException {
+		if (!MonthViewConstants.LOCALE_ENG.equals(monthView.getLanguage())) {
+			InputStream reader = this.getClass().getResourceAsStream(MonthViewConstants.SCRIPT_LOCALE_PREFIX + monthView.getLanguage()  + MonthViewConstants.SCRIPT_LOCALE_SUFFIX);
+			BufferedReader bin = new BufferedReader(new InputStreamReader(reader));
+			String str;
+			StringBuffer localeStr = new StringBuffer();
+			while ((str = bin.readLine()) != null) {
+				localeStr.append(str).append("\n");
+	        }
+			writer.write(localeStr.toString());
+		}
+	}
+
 	private String getEventsAsStr(Collection<Event> events) {
 		StringBuffer strEvents = new StringBuffer();
 		Object[] eventsArr = events.toArray();

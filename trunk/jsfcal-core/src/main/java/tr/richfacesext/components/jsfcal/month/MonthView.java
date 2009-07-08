@@ -117,7 +117,7 @@ public class MonthView extends UIInput {
 			return _language;
 		
 		ValueBinding vb = getValueBinding("language");
-		return vb != null ? (java.lang.String) vb.getValue(getFacesContext()) : MonthViewConstants.DEFAULT_CAL_LOCALE;
+		return vb != null ? (java.lang.String) vb.getValue(getFacesContext()) : MonthViewConstants.LOCALE_ENG;
 	}
 	
 	public void setLanguage(String languageValue) {
