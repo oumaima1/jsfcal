@@ -54,7 +54,7 @@ public abstract class ICalHelper {
 		calendar.getComponents().add(event);
 	}
 	
-	public static byte[] getCalAsByteArr(Calendar calendar) {
+	public static byte[] getCalAsByteArr(Calendar calendar) throws ValidationException {
 		ByteArrayOutputStream bout = new ByteArrayOutputStream();
 		CalendarOutputter outputter = new CalendarOutputter();
 		try {
@@ -64,9 +64,7 @@ public abstract class ICalHelper {
 		catch (IOException e) {
 			logger.error("Error occured while writing to ical stream", e);
 		} 
-		catch (ValidationException e) {
-			logger.error("Error occured while validating iCal", e);
-		}
+
 		return null;
 	}
 }

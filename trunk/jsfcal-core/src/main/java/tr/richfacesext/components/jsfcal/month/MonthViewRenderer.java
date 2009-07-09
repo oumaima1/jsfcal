@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.Collection;
 
 import javax.el.ValueExpression;
@@ -35,16 +34,14 @@ public class MonthViewRenderer extends Renderer {
 	}
 
 	private void encodeIncludeStyles(FacesContext context, ResponseWriter writer, MonthView monthView) throws IOException {
-		String appURL = ComponentUtils.getApplicationURL(context);
-		ComponentUtils.encodeIncludeStyle(context, writer, monthView, appURL, MonthViewConstants.STYLE_FULLCALENDAR);
+		ComponentUtils.encodeIncludeStyle(context, writer, monthView, MonthViewConstants.STYLE_FULLCALENDAR);
 	}
 
 	private void encodeIncludeScripts(FacesContext context, ResponseWriter writer, MonthView monthView) throws IOException {
-		String appURL = ComponentUtils.getApplicationURL(context);
-		ComponentUtils.encodeIncludeScript(context, writer, monthView, appURL, MonthViewConstants.SCRIPT_JQUERY);
-		ComponentUtils.encodeIncludeScript(context, writer, monthView, appURL, MonthViewConstants.SCRIPT_UI_CORE);
-		ComponentUtils.encodeIncludeScript(context, writer, monthView, appURL, MonthViewConstants.SCRIPT_UI_DRAGGABLE);
-		ComponentUtils.encodeIncludeScript(context, writer, monthView, appURL, MonthViewConstants.SCRIPT_FULLCALENDAR);
+		ComponentUtils.encodeIncludeScript(context, writer, monthView, MonthViewConstants.SCRIPT_JQUERY);
+		ComponentUtils.encodeIncludeScript(context, writer, monthView, MonthViewConstants.SCRIPT_UI_CORE);
+		ComponentUtils.encodeIncludeScript(context, writer, monthView, MonthViewConstants.SCRIPT_UI_DRAGGABLE);
+		ComponentUtils.encodeIncludeScript(context, writer, monthView, MonthViewConstants.SCRIPT_FULLCALENDAR);
 	}
 
 	private void encodeWidget(FacesContext context, ResponseWriter writer, MonthView monthView) throws IOException {
@@ -84,7 +81,7 @@ public class MonthViewRenderer extends Renderer {
 	}
 	
 	private void renderLocaleIfApplicable(ResponseWriter writer, MonthView monthView) throws IOException {
-		if (!MonthViewConstants.LOCALE_ENG.equals(monthView.getLanguage())) {
+		if (!MonthViewConstants.LOCALE_EN.equals(monthView.getLanguage())) {
 			InputStream reader = this.getClass().getResourceAsStream(MonthViewConstants.SCRIPT_LOCALE_PREFIX + monthView.getLanguage()  + MonthViewConstants.SCRIPT_LOCALE_SUFFIX);
 			BufferedReader bin = new BufferedReader(new InputStreamReader(reader));
 			String str;

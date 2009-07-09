@@ -2,11 +2,12 @@ package tr.richfacesext.components.jsfcal.month;
 
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
+
+import org.apache.commons.lang.StringUtils;
 
 import tr.richfacesext.components.jsfcal.Event;
 
@@ -16,7 +17,6 @@ import tr.richfacesext.components.jsfcal.Event;
  *
  */
 public class MonthView extends UIInput {
-
 
 	private Integer _initYear;
 	private Integer _initMonth;
@@ -117,9 +117,16 @@ public class MonthView extends UIInput {
 			return _language;
 		
 		ValueBinding vb = getValueBinding("language");
-		return vb != null ? (java.lang.String) vb.getValue(getFacesContext()) : MonthViewConstants.LOCALE_ENG;
+		return vb != null ? (java.lang.String) vb.getValue(getFacesContext()) : decideOnLocale();
 	}
 	
+	private String decideOnLocale() {
+		String lang = FacesContext.getCurrentInstance().getViewRoot().getLocale().getLanguage();
+		if (StringUtils.isNotEmpty(lang))
+			return lang;
+		return MonthViewConstants.LOCALE_EN;
+	}
+
 	public void setLanguage(String languageValue) {
 		_language = languageValue;
 	}
