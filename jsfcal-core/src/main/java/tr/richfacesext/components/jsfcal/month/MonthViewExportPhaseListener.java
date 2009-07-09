@@ -17,6 +17,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import net.fortuna.ical4j.model.Calendar;
+import net.fortuna.ical4j.model.ValidationException;
 import net.fortuna.ical4j.model.component.VEvent;
 
 import org.apache.commons.lang.StringUtils;
@@ -41,6 +42,11 @@ public class MonthViewExportPhaseListener implements PhaseListener {
 	
 	private static final String KEYVAL_SELECTED_MONTH = "month";
 	private static final String KEYVAL_SELECTED_YEAR = "year";
+	
+	
+	private static final String NOEVENT_ERROR_HTML_PREFIX = "<html><body><b><h2>";
+	private static final String NOEVENT_ERROR_ENG = "Error: There should be at least 1 event to export.";
+	private static final String NOEVENT_ERROR_HTML_SUFFIX = "</h2></b></body></html>";
 	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
@@ -73,16 +79,25 @@ public class MonthViewExportPhaseListener implements PhaseListener {
 						HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
 						ServletOutputStream outputStream = response.getOutputStream();
 						
-						response.setContentType("text/calendar");
-						response.setStatus(200);
-						response.setHeader("Expires", "0");
-						response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-						response.setHeader("Pragma", "public");
-						response.setHeader("Content-Disposition","attachment;filename=\"" + year + "-"+ (Integer.parseInt(month)+1) + ".ics" +  "\"");
-						
-						byte[] generatedCal = generateCal(eventsCol, (String) params.get(KEYVAL_CALENDAR_TYPE), month, year);
-						
-						outputStream.write(generatedCal);
+						byte[] generatedResult;
+						try {
+							generatedResult = generateCal(eventsCol, (String) params.get(KEYVAL_CALENDAR_TYPE), month, year);
+							response.setContentType("text/calendar");
+							response.setStatus(200);
+							response.setHeader("Expires", "0");
+							response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+							response.setHeader("Pragma", "public");
+							response.setHeader("Content-Disposition","attachment;filename=\"" + year + "-"+ (Integer.parseInt(month)+1) + ".ics" +  "\"");
+							outputStream.write(generatedResult);
+						} 
+						catch (ValidationException e) {
+							// TODO Auto-generated catch block
+							response.setContentType("text/html");
+							response.setStatus(200);
+							outputStream.write(NOEVENT_ERROR_HTML_PREFIX.getBytes());
+							outputStream.write(NOEVENT_ERROR_ENG.getBytes());
+							outputStream.write(NOEVENT_ERROR_HTML_SUFFIX.getBytes());
+						}
 						outputStream.flush();
 						outputStream.close();
 						
@@ -102,7 +117,7 @@ public class MonthViewExportPhaseListener implements PhaseListener {
 		}
 	}
 
-	private byte[] generateCal(Collection eventsCol, String type, String month, String year) {
+	private byte[] generateCal(Collection eventsCol, String type, String month, String year) throws ValidationException {
 		logger.debug("Filtering calendar events for month: " + (Integer.parseInt(month)+1));
 		List<VEvent> filteredEvents = getCalEventsForGivenMonth(eventsCol, Integer.parseInt(month), Integer.parseInt(year));
 		if (CALENDAR_ICAL.equals(type)) {
@@ -114,7 +129,7 @@ public class MonthViewExportPhaseListener implements PhaseListener {
 		return null;
 	}
 
-	private byte[] generateICal(List<VEvent> filteredEvents) {
+	private byte[] generateICal(List<VEvent> filteredEvents) throws ValidationException {
 		logger.debug("Exporting calendar with number of filtered events: " + filteredEvents.size());
 		Calendar cal = ICalHelper.createCalendar();
 		for (VEvent event : filteredEvents) {

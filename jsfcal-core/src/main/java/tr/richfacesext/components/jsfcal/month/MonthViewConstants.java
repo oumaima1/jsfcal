@@ -16,14 +16,14 @@ public interface MonthViewConstants {
 	String COMPONENT_FAMILY = "tr.richfacesext.components.jsfcal";
 	String DEFAULT_RENDERER = "tr.richfacesext.components.jsfcal.month.MonthViewRenderer";
 
-	String LOCALE_ENG = "en"; // default
+	String LOCALE_EN = "en"; // default
 	String LOCALE_FR = "fr";
 	String LOCALE_DE = "de";
 	String LOCALE_TR = "tr";
 	
 	Map<String, Integer> weekStarts = new HashMap<String, Integer>() {
 		{
-			put(LOCALE_ENG, 0);
+			put(LOCALE_EN, 0);
 			put(LOCALE_DE, 0);
 			put(LOCALE_TR, 0);
 			put(LOCALE_FR, 1);
