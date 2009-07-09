@@ -9,6 +9,7 @@ import tr.richfacesext.components.jsfcal.Event;
  * @author mert
  * 
  */
+@SuppressWarnings("serial")
 public class CalEvent implements Event {
 
 	private Long id;
